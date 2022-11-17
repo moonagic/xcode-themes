@@ -1,4 +1,14 @@
 #!/usr/bin/env bash
 
-mkdir -p ~/Library/Developer/Xcode/UserData/FontAndColorThemes/
-cp *.dvtcolortheme ~/Library/Developer/Xcode/UserData/FontAndColorThemes/
+declare installPath=~/Library/Developer/Xcode/UserData/FontAndColorThemes/
+
+echo "Adding themes to $installPath 🏗️"
+
+mkdir -p $installPath
+for theme in *.dvtcolortheme; do
+  xcodeThemeName=$(echo $theme | sed 's/\%//g')
+  cp -ir "$theme" "$installPath$xcodeThemeName"
+done
+
+themesCount=$(find . -name "*.dvtcolortheme" | wc -l)
+echo "Added ${themesCount} themes ✅"
